@@ -1,0 +1,15 @@
+---
+
+acme_tiny_repo: 'https://github.com/diafygi/acme-tiny.git'
+acme_tiny_commit: '69a457269a6392ac31b629b4e103e8ea7dd282c9'
+
+acme_tiny_software_directory: '/usr/local/letsencrypt'
+acme_tiny_data_directory: '/var/lib/letsencrypt'
+acme_tiny_challenges_directory: '/var/www/letsencrypt'
+
+letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
+
+letsencrypt_user: 'letsencrypt'
+letsencrypt_group: 'letsencrypt'
+
+...

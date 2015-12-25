@@ -1,0 +1,84 @@
+---
+
+#################################################
+# one time setup
+#################################################
+
+- name: create data directory
+  file:
+    path: '{{ acme_tiny_data_directory }}'
+    state: directory
+
+- name: create csr directory
+  file:
+    path: '{{ acme_tiny_data_directory }}/csrs'
+    state: directory
+
+- name: create user
+  user:
+    name: '{{ letsencrypt_user }}'
+    home: '{{ acme_tiny_data_directory }}'
+    system: yes
+
+- name: create group
+  group:
+    name: '{{ letsencrypt_group }}'
+    system: yes
+
+- name: create program directory
+  file:
+    path: '{{ acme_tiny_software_directory }}'
+    state: directory
+
+- name: create challenges directory
+  file:
+    path: '{{ acme_tiny_challenges_directory }}'
+    state: directory
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+
+- name: ensure correct permissions on data directory
+  file:
+    path: '{{ acme_tiny_data_directory }}'
+    state: directory
+    mode: 0700
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+    recurse: true
+
+- name: clone acme-tiny repository
+  git:
+    dest: '{{ acme_tiny_software_directory }}'
+    repo: '{{ acme_tiny_repo }}'
+    version: '{{ acme_tiny_commit }}'
+    accept_hostkey: yes
+
+- name: generate account key
+  shell: "openssl genrsa 4096 > {{ letsencrypt_account_key }}"
+  args:
+    creates: "{{ letsencrypt_account_key }}"
+
+
+#################################################
+# key setup
+
+- name: generate private keys
+  shell: "openssl genrsa 4096 > {{ item.keypath }}"
+  args:
+    creates: "{{ item.keypath }}"
+  with_items: letsencrypt_keys
+
+- name: generate csrs
+  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/CN={{ item.host }}'
+    > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  args:
+    creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  with_items: letsencrypt_keys
+
+- name: generate script
+  template:
+    src: renew-certs.py
+    dest: "{{ acme_tiny_data_directory }}/renew-certs.py"
+    mode: 0700
+
+...
