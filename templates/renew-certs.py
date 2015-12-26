@@ -2,11 +2,11 @@
 
 from subprocess import Popen, PIPE, STDOUT
 
-keys = {{ letsencrypt_keys }}
+certs = {{letsencrypt_certs}}
 
 script = "{{ acme_tiny_software_directory }}/acme_tiny.py"
 
-for cert in keys:
+for cert in certs:
     args = [
         "/usr/bin/env", "python", script,
 
