@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import os
+from subprocess import Popen, PIPE, STDOUT
 
-keys = {{letsencrypt_keys}}
+keys = {{ letsencrypt_keys }}
 
 script = "{{ acme_tiny_software_directory }}/acme_tiny.py"
 
@@ -18,6 +18,15 @@ for cert in keys:
         "{{ acme_tiny_challenges_directory }}"
     ]
 
-    result = os.execv("/usr/bin/env", args)
+    cmd = "/usr/bin/env " + " ".join(args)
 
-    print result
+    p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=True)
+    output = p.stdout.read()
+    p.stdin.close()
+    if p.wait() != 0:
+        print "error while generating certificate for " + cert['host']
+        print p.stderr.read()
+    else:
+        f = open(cert['certpath'], 'w')
+        f.write(output)
+        f.close()
