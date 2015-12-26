@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import os
+import time
+
 from subprocess import Popen, PIPE, STDOUT
 
 certs = {{letsencrypt_certs}}
@@ -7,6 +10,14 @@ certs = {{letsencrypt_certs}}
 script = "{{ acme_tiny_software_directory }}/acme_tiny.py"
 
 for cert in certs:
+    if os.access(cert['certpath'], os.F_OK):
+        stat = os.stat(cert['certpath'])
+        if time.time() - stat.st_mtime < 14 * 86400:
+            print "Certificate file " + cert['certpath'] \
+                  + " already exists and is younger than 14 days. Not creating a new certificate.\n"
+            continue
+
+    print "Generating certificate for " + cert["host"]
     args = [
         "/usr/bin/env", "python", script,
 
