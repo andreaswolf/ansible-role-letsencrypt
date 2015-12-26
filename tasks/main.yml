@@ -83,4 +83,18 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
 
+#################################################
+# cron setup
+
+- name: install cronjob for key generation
+  cron:
+    job: "cd {{ acme_tiny_data_directory }} && ./renew-certs.py"
+    # run the job every month so we get a new certificate in time, even if it fails on the first attempt
+    day: 1
+    hour: 4
+    minute: 30
+    state: present
+    name: "letsencrypt certificate renewal"
+    user: "{{ letsencrypt_user }}"
+
 ...
