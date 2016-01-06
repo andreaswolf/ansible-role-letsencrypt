@@ -66,12 +66,8 @@
   register: account_public_key
   when: generate_account_key | changed
 
-- name: print account public key
+- name: "Please register the account public key with Letsencrypt, using for example https://gethttpsforfree.com/"
   debug: var=account_public_key.stdout
-  when: generate_account_key | changed
-
-- debug:
-    msg: "Please register the account public key with Letsencrypt, using for example https://gethttpsforfree.com/"
   when: generate_account_key | changed
 
 #################################################
