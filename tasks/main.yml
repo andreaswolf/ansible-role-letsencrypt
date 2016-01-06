@@ -86,6 +86,13 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
 
+- name: generate the initial certificate
+  command: ./renew-certs.py
+  args:
+    chdir: "{{ acme_tiny_data_directory }}"
+    creates: "{{ letsencrypt_certs[0].certpath }}"
+  become_user: "{{ letsencrypt_user }}"
+
 #################################################
 # cron setup
 
