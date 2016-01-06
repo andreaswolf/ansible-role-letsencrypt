@@ -11,6 +11,9 @@ galaxy_info:
   - name: Debian
     versions:
     - all
+  - name: Ubuntu
+    versions:
+    - all
 
   categories:
   - networking
