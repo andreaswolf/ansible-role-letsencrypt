@@ -70,6 +70,14 @@
   debug: var=account_public_key.stdout
   when: generate_account_key | changed
 
+- name: generate script
+  template:
+    src: renew-certs.py
+    dest: "{{ acme_tiny_data_directory }}/renew-certs.py"
+    mode: 0700
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+
 #################################################
 # key setup
 
@@ -86,14 +94,6 @@
   args:
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   with_items: letsencrypt_certs
-
-- name: generate script
-  template:
-    src: renew-certs.py
-    dest: "{{ acme_tiny_data_directory }}/renew-certs.py"
-    mode: 0700
-    owner: '{{ letsencrypt_user }}'
-    group: '{{ letsencrypt_group }}'
 
 - name: generate the initial certificate
   command: ./renew-certs.py
