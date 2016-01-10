@@ -88,12 +88,23 @@
     creates: "{{ item.keypath }}"
   with_items: letsencrypt_certs
 
-- name: generate csrs
+- name: generate csrs for single domain keys
   shell: >
     openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/CN={{ item.host }}' > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr
   args:
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  when: item.host is string
   with_items: letsencrypt_certs
+
+- name: generate csrs for multi domain keys
+  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/' -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:{{ item.host|join(',DNS:') }}')) > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  args:
+    # we must use bash here because dash (default on Debian) throws an error "unexpected ( on line 1"
+    executable: "/bin/bash"
+    creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  when: item.host is not string
+  with_items: letsencrypt_certs
+  tags: letsencrypt
 
 - name: generate the initial certificate
   command: ./renew-certs.py

@@ -47,7 +47,15 @@ Add the certificates to generate to their respective hosts:
         keypath: "/path/to/your/keys/anything-you-like.key"
         certpath: "/path/to/your/certs/anything-you-like.cert"
         host: "myhost.example.com"
+      -
+        name: "multidomain cert"
+        keypath: "/path/to/your/keys/example.org.key"
+        certpath: "/path/to/your/certs/example.org.cert"
+        host:
+          - "foo.example.org"
+          - "bar.example.org"
 
+For multidomain certificates, all mentioned names must point to the server where the certificate is being generated.
 
 Dependencies
 ------------
@@ -80,9 +88,11 @@ TODO
 This role is brand-new, so it needs testing. I tested it on Debian, where it works fine, but YMMV. If you can get it to
 run on other systems, I’d be happy to hear about that. I’m also happy if you report any issues you run into.
 
-The most severe shortcoming is the lack of multi-domain certificates (via Subject Alternative Names, SAN). During its
-public beta, _Let’s encrypt_ has a rate-limit of five certificates per domain per seven days 
-[source](https://community.letsencrypt.org/t/public-beta-rate-limits/4772).
+During its public beta, _Let’s encrypt_ has a rate-limit of five certificates *per domain* per seven days 
+[source](https://community.letsencrypt.org/t/public-beta-rate-limits/4772). So two certificates for foo.example.org
+and bar.example.org use two of the seven available certs for example.org. This should be better handled by the role,
+by not regenerating certficates too often (probably you have multiple servers which host subdomains of the same domain,
+so the limit would be depleted very fast).
 
 Also the private keys are currently not limited to a certain user; this would require some more logic that will follow
 soon.
