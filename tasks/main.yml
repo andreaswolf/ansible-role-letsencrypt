@@ -54,23 +54,35 @@
     accept_hostkey: yes
 
 - name: generate account key
-  shell: "openssl genrsa 4096 > {{ letsencrypt_account_key }}"
+  shell: >
+    openssl genrsa 4096 > {{ letsencrypt_account_key }}
   args:
     creates: "{{ letsencrypt_account_key }}"
+  register: generate_account_key
 
+- name: generate account public key
+  command: >
+    openssl rsa -in {{ letsencrypt_account_key }} -pubout
+  register: account_public_key
+  when: generate_account_key | changed
+
+- name: "Please register the account public key with Letsencrypt, using for example https://gethttpsforfree.com/"
+  debug: var=account_public_key.stdout
+  when: generate_account_key | changed
 
 #################################################
 # key setup
 
 - name: generate private keys
-  shell: "openssl genrsa 4096 > {{ item.keypath }}"
+  shell: >
+    openssl genrsa 4096 > {{ item.keypath }}
   args:
     creates: "{{ item.keypath }}"
   with_items: letsencrypt_certs
 
 - name: generate csrs
-  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/CN={{ item.host }}'
-    > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  shell: >
+    openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/CN={{ item.host }}' > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr
   args:
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   with_items: letsencrypt_certs
@@ -82,6 +94,15 @@
     mode: 0700
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
+
+- name: generate the initial certificate
+  command: ./renew-certs.py
+  args:
+    chdir: "{{ acme_tiny_data_directory }}"
+    creates: "{{ letsencrypt_certs[0].certpath }}"
+  become_user: "{{ letsencrypt_user }}"
+  register: generate_initial_cert
+  failed_when: "'error' in generate_initial_cert.stdout"
 
 #################################################
 # cron setup
