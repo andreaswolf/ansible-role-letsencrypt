@@ -60,7 +60,7 @@
     creates: "{{ letsencrypt_account_key }}"
   register: generate_account_key
 
-- name: generate account public key
+- name: print account public key
   command: >
     openssl rsa -in {{ letsencrypt_account_key }} -pubout
   register: account_public_key
@@ -70,7 +70,8 @@
   debug: var=account_public_key.stdout
   when: generate_account_key | changed
 
-- name: generate script
+
+- name: generate certificate renewal script
   template:
     src: renew-certs.py
     dest: "{{ acme_tiny_data_directory }}/renew-certs.py"
