@@ -54,6 +54,19 @@ Add the certificates to generate to their respective hosts:
 
 For multidomain certificates, all mentioned names must point to the server where the certificate is being generated.
 
+You can optionally also set the permissions of the key, with these three options which are fed in to Ansible’s file
+module:
+
+  - key_owner: a user name, e.g. root or www-data
+  - key_group: a group name, e.g. root or ssl-certs or www-data
+  - key_permissions: an octal mode, like "0600". This must be specified as a quoted string. Without the quotes, it did
+    not work for me (read: the number was interpreted as octal and converted to decimal)
+
+The default mode is root/root/0600, i.e. the file is only read-/writable by root. Make sure you never make the key
+world-readable! If you do, everybody with shell access to the server might be able to compromise your encrypted
+connections.
+
+
 ## Dependencies
 
 No direct dependencies, but of course you will need to have a webserver configured (e.g. Apache); this role currently
