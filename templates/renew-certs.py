@@ -44,3 +44,10 @@ for cert in certs:
         f = open(cert['certpath'], 'w')
         f.write(output)
         f.close()
+ open(cert['certpath'], 'w')
+        # add cert
+        f.write(output)
+        # add intermediate letsencrypt cert
+        with open('{{ letsencrypt_intermediate_cert }}', 'r') as intermediate_cert:
+            f.write(intermediate_cert.read())
+        f.close()

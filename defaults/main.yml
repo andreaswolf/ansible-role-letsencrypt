@@ -12,4 +12,13 @@ letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'letsencrypt'
 
-...
+..._n_weeks: 8
+
+letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
+
+letsencrypt_user: 'letsencrypt'
+letsencrypt_group: 'letsencrypt'
+
+letsencrypt_keys_dir: '/etc/ssl/letsencrypt/private'
+letsencrypt_certs_dir: '/etc/ssl/letsencrypt/certs'
+letsencrypt_intermediate_cert: "{{ letsencrypt_certs_dir }}/lets-encrypt-x1-cross-signed.pem"

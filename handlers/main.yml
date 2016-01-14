@@ -1,0 +1,5 @@
+
+- name: generate certs
+  shell: cd {{ acme_tiny_data_directory }} && ./renew-certs.py
+  become: yes
+  become_user: "{{ letsencrypt_user }}"

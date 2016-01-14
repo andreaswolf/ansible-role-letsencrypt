@@ -141,4 +141,46 @@
     name: "letsencrypt certificate renewal"
     user: "{{ letsencrypt_user }}"
 
+...t
+
+- name: generate private keys
+  shell: "openssl genrsa 4096 > {{ item.keypath }}"
+  args:
+    creates: "{{ item.keypath }}"
+  with_items: letsencrypt_certs
+  tags: letsencrypt
+
+- name: generate csrs for singledomain keys
+  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/CN={{ item.host }}'
+    > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  args:
+    creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  when: not {{ item.multiple|default(false) }}
+  with_items: letsencrypt_certs
+  tags: letsencrypt
+  # notify: generate certs
+
+- name: generate csrs for multidomain keys
+  raw: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/' -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:{{ item.hosts|join(',DNS:') }}')) > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  args:
+    creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  when: item.multiple|default(false)
+  with_items: letsencrypt_certs
+  tags: letsencrypt
+  # notify: generate certs
+
+#################################################
+# cron setup
+
+- name: install cronjob for key generation
+  cron:
+    job: "cd {{ acme_tiny_data_directory }} && ./renew-certs.py"
+    # run the job every week so we get a new certificate in time, even if it fails on the first attempt
+    special_time: weekly
+    cron_file: letsencrypt
+    state: present
+    name: "letsencrypt certificate renewal"
+    user: "{{ letsencrypt_user }}"
+  tags: letsencrypt
+
 ...
