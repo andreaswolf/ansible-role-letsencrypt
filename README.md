@@ -20,6 +20,8 @@ directory configured with `acme_tiny_challenges_directory`. For Apache, such an 
 
     Alias "/.well-known/acme-challenge" "{{ acme_tiny_challenges_directory }}"
 
+Hint: You can also put this into a global variable and then use this variable in the definition of every vHost.
+
 
 ## Role Variables
 
@@ -36,7 +38,9 @@ You can also adjust the user and group used for generating the certificates; the
   * `letsencrypt_user`—note that this is a user **on your system**, not with the Let’s encrypt web service.
   * `letsencrypt_group`
 
-Add the certificates to generate to their respective hosts:
+Add the certificates to generate to their respective hosts (important! if the certificate is not generated on the host
+the DNS A record points to, Let’s encrypt won’t be able to verify if the hostname really belongs to you and thus won’t
+give you the certificate!):
 
     letsencrypt_certs:
       - 
@@ -98,8 +102,10 @@ and bar.example.org use two of the seven available certs for example.org. This s
 by not regenerating certficates too often (probably you have multiple servers which host subdomains of the same domain,
 so the limit would be depleted very fast).
 
-Also the private keys are currently not limited to a certain user; this would require some more logic that will follow
-soon.
+Also desirable would be more ways to verify domain ownership than configuring a virtual host. I know there are others,
+e.g. via DNS, but I did not look into them and they might require complicated setup. Also acme-tiny likely does not
+support them currently, but that could be changed—it’s all open source here :-) So if you know your way around the ACME
+protocol and/or other parts of the Let’s encrypt universe, feel free to contact me to work together on this.
 
 
 ## License
@@ -116,5 +122,5 @@ This role was created by Andreas Wolf. Visit my [website](http://a-w.io) and
 
 *(in alphabetic order)*
 
-  * [tgagor](https://github.com/tgagor)
   * [Ludovic Claude](https://github.com/ludovicc)
+  * [tgagor](https://github.com/tgagor)
