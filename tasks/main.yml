@@ -122,7 +122,6 @@
   command: ./renew-certs.py
   args:
     chdir: "{{ acme_tiny_data_directory }}"
-    creates: "{{ letsencrypt_certs[0].certpath }}"
   become_user: "{{ letsencrypt_user }}"
   register: generate_initial_cert
   failed_when: "'error' in generate_initial_cert.stdout"
