@@ -7,7 +7,7 @@ It automates the following tasks:
 
   * creating an account key for Let’s encrypt
   * creating private keys and Certificate Signature Requests (CSR) for hosts
-  * configuring a cron job that automatically renews the certificates at the beginning of each month
+  * configuring a cron job that automatically renews the certificates after 60 days
 
 Currently, you need to run the cron job manually to get a new certificate after running Ansible. This shortcoming will
 be fixed.

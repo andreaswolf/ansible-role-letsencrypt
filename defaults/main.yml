@@ -12,4 +12,12 @@ letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'letsencrypt'
 
+# the minimum age (in days) after which a certificate will be renewed
+letsencrypt_min_renewal_age: 60
+
+# the days of a month the cronjob should be run. Make sure to run it rather often, three times per month is a pretty
+# good value. It does not harm to run it often, as it will only regenerate certificates that have passed a certain age
+# (60 days by default).
+letsencrypt_cronjob_daysofmonth: 1,11,21
+
 ...

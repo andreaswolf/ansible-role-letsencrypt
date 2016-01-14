@@ -14,8 +14,8 @@ for cert in certs:
         stat = os.stat(cert['certpath'])
         print "Certificate file " + cert['certpath'] + " already exists"
 
-        if time.time() - stat.st_mtime < 14 * 86400:
-            print "  The certificate is younger than 14 days. Not creating a new certificate.\n"
+        if time.time() - stat.st_mtime < {{ letsencrypt_min_renewal_age }} * 86400:
+            print "  The certificate is younger than {{ letsencrypt_min_renewal_age }} days. Not creating a new certificate.\n"
             continue
 
     host = ",".join(cert['host']) if type(cert['host']) is list else cert['host']

@@ -132,8 +132,7 @@
 - name: install cronjob for key generation
   cron:
     job: "cd {{ acme_tiny_data_directory }} && ./renew-certs.py"
-    # run the job every month so we get a new certificate in time, even if it fails on the first attempt
-    day: 1
+    day: "{{ letsencrypt_cronjob_daysofmonth }}"
     hour: 4
     minute: 30
     state: present
