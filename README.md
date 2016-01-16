@@ -77,7 +77,11 @@ module:
 
 The default mode is root/root/0600, i.e. the file is only read-/writable by root. Make sure you never make the key
 world-readable! If you do, everybody with shell access to the server might be able to compromise your encrypted
-connections.
+connections. You can also change the defaults by setting these variables:
+
+  - letsencrypt_default_key_owner
+  - letsencrypt_default_key_group
+  - letsencrypt_default_key_permissions
 
 
 ## Dependencies

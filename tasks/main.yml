@@ -98,8 +98,8 @@
 - name: ensure correct permissions on private keys
   file: >
     path={{ item.keypath }}
-    owner={{ item.key_owner|default('root') }} group={{ item.key_group|default('root') }}
-    mode={{ item.key_permissions|default('0600') }}
+    owner={{ item.key_owner|default(letsencrypt_default_key_owner) }} group={{ item.key_group|default(letsencrypt_default_key_group) }}
+    mode={{ item.key_permissions|default(letsencrypt_default_key_permissions) }}
   with_items: letsencrypt_certs
   tags: ['letsencrypt_keys']
 

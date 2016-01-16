@@ -14,6 +14,10 @@ letsencrypt_intermediate_cert_path: '/etc/ssl/certs/lets-encrypt-x1-cross-signed
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'letsencrypt'
 
+letsencrypt_default_key_owner: 'root'
+letsencrypt_default_key_group: 'root'
+letsencrypt_default_key_permissions: '0600'
+
 # the minimum age (in days) after which a certificate will be renewed
 letsencrypt_min_renewal_age: 60
 
