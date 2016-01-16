@@ -9,6 +9,8 @@ acme_tiny_challenges_directory: '/var/www/letsencrypt'
 
 letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 
+letsencrypt_intermediate_cert_path: '/etc/ssl/certs/lets-encrypt-x1-cross-signed.pem'
+
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'letsencrypt'
 

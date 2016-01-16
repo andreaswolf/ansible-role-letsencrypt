@@ -23,6 +23,13 @@ directory configured with `acme_tiny_challenges_directory`. For Apache, such an 
 Hint: You can also put this into a global variable and then use this variable in the definition of every vHost.
 
 
+
+## Certificate chain
+
+The intermediate certificate of Let’s encrypt is downloaded to `letsencrypt_intermediate_cert_path`. You should include
+it in the webserver config to have it delivered to visitors.
+
+
 ## Role Variables
 
 You might want to adjust these variables that control where the software and data are located:
@@ -31,6 +38,8 @@ You might want to adjust these variables that control where the software and dat
   * `acme_tiny_data_directory`: The location where the account key and certificate signature requests (CSR) are placed
   * `acme_tiny_challenges_directory`: The (web-reachable) directory that contains the temporary challenges used for 
     verifying your domain ownership
+  * `letsencrypt_intermediate_cert_path`: the path to which the intermediate certificate of Let’s encrypt will be
+    downloaded.
 
 You can also adjust the user and group used for generating the certificates; there should be a dedicated user for this
 (recommended by the acme-tiny authors). The user and group are configured with these two variables:

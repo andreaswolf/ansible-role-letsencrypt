@@ -79,6 +79,9 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
 
+- name: download intermediate certificate
+  copy: src=lets-encrypt-x1-cross-signed.pem dest={{ letsencrypt_intermediate_cert_path }} mode=0644
+
 #################################################
 # key setup
 
