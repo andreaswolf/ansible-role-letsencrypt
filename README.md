@@ -9,8 +9,8 @@ It automates the following tasks:
   * creating private keys and Certificate Signature Requests (CSR) for hosts
   * configuring a cron job that automatically renews the certificates after 60 days
 
-Currently, you need to run the cron job manually to get a new certificate after running Ansible. This shortcoming will
-be fixed.
+During each role run, the certificate renewal script is also executed (as with the cron job), to ensure you get new
+certificates as soon as you have configured them.
 
 
 ## Requirements
@@ -21,7 +21,6 @@ directory configured with `acme_tiny_challenges_directory`. For Apache, such an 
     Alias "/.well-known/acme-challenge" "{{ acme_tiny_challenges_directory }}"
 
 Hint: You can also put this into a global variable and then use this variable in the definition of every vHost.
-
 
 
 ## Certificate chain
