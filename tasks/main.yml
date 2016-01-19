@@ -125,7 +125,7 @@
     creates: "{{ letsencrypt_certs[0].certpath }}"
   become_user: "{{ letsencrypt_user }}"
   register: generate_initial_cert
-  failed_when: "'error' in generate_initial_cert.stdout"
+  failed_when: "'error' in generate_initial_cert.stdout or 'Error' in generate_initial_cert.stdout or 'Error' in generate_initial_cert.stderr"
 
 #################################################
 # cron setup
