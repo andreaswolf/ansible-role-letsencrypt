@@ -80,7 +80,10 @@
     group: '{{ letsencrypt_group }}'
 
 - name: download intermediate certificate
-  copy: src=lets-encrypt-x1-cross-signed.pem dest={{ letsencrypt_intermediate_cert_path }} mode=0644
+  get_url: >
+    url={{ letsencrypt_intermediate_cert_url }}
+    dest={{ letsencrypt_intermediate_cert_path }}
+    checksum={{ letsencrypt_intermediate_cert_checksum }}
 
 #################################################
 # key setup
