@@ -48,7 +48,8 @@ You might want to adjust these variables that control where the software and dat
     verifying your domain ownership
   * `letsencrypt_intermediate_cert_path`: the path to which the intermediate certificate of Let’s encrypt will be
     downloaded.
-  * `letsencrypt_account_key_source`: the path to the local account key file to copy over to the server. Leave this variable undefined to let this role generate the account key.
+  * `letsencrypt_account_key_source_file`: the path to the local account key file to copy over to the server. Leave this variable undefined to let this role generate the account key.
+  * `letsencrypt_account_key_source_contents`: the actual content of the key file including the BEGIN and END headers. Leave this variable undefined to let this role generate the account key.
 
 You can also adjust the user and group used for generating the certificates; there should be a dedicated user for this
 (recommended by the acme-tiny authors). The user and group are configured with these two variables:

@@ -8,8 +8,18 @@ acme_tiny_data_directory: '/var/lib/letsencrypt'
 acme_tiny_challenges_directory: '/var/www/letsencrypt'
 
 # Path to the local file containing the account key to copy to the server.
+# Secure this file using Git-crypt for example.
 # Leave this blank to generate a new account key that will need to be registered manually with Letsencrypt.org
-#letsencrypt_account_key_source: /my/account.key
+#letsencrypt_account_key_source_file: /my/account.key
+
+# Content of the account key to copy to the server.
+# Secure this key using Ansible Vault for example.
+# Leave this blank to generate a new account key that will need to be registered manually with Letsencrypt.org
+#letsencrypt_account_key_source_content: |
+#  -----BEGIN RSA PRIVATE KEY-----
+#  MIIJKAJBBBKCaGEA63J7t9dqyua5+Q+P6M3iHtLEKpF/AZcZNBHr1F2Oo8+Hfyvl
+#  KWXliiWjUORxDxI1c56Rw2VCIExnFjWJAdSLv6/XaQWo2T7U28bkKbAlCF9=
+#  -----END RSA PRIVATE KEY-----
 
 letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 
