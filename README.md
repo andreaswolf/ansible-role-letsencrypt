@@ -28,6 +28,15 @@ Hint: You can also put this into a global variable and then use this variable in
 The intermediate certificate of Let’s encrypt is downloaded to `letsencrypt_intermediate_cert_path`. You should include
 it in the webserver config to have it delivered to visitors.
 
+## Reusing existing account keys
+
+When you use Letencrypt on multiple servers, it may be simpler to have only one account defined with Letsencypt. You can do that with this role by proceeding as follow:
+
+1. Run the role on a first server, a new account.key file is created for you.
+2. Register the account public key with Letsencrypt using for example [Gethttpsforfree](https://gethttpsforfree.com/)
+3. Copy /var/lib/letsencrypt/account.key from the first server to your computer
+4. Recommanded: secure the account.key file. It should never be accessible to anybody otherwise the security of your site may be compromised as an attacker may impersonate you. Personally, I use git-crypt with PGP encryption to protect this file.
+5. For new servers, setup `letsencrypt_account_key_source` to point to the local account.key file. The file account.key will be copied to the server and you will be able to reuse the same account with Letencrypt for all your servers.
 
 ## Role Variables
 
@@ -39,6 +48,8 @@ You might want to adjust these variables that control where the software and dat
     verifying your domain ownership
   * `letsencrypt_intermediate_cert_path`: the path to which the intermediate certificate of Let’s encrypt will be
     downloaded.
+  * `letsencrypt_account_key_source_file`: the path to the local account key file to copy over to the server. Leave this variable undefined to let this role generate the account key.
+  * `letsencrypt_account_key_source_contents`: the actual content of the key file including the BEGIN and END headers. Leave this variable undefined to let this role generate the account key.
 
 You can also adjust the user and group used for generating the certificates; there should be a dedicated user for this
 (recommended by the acme-tiny authors). The user and group are configured with these two variables:

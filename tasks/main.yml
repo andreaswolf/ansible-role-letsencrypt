@@ -53,7 +53,19 @@
     version: '{{ acme_tiny_commit }}'
     accept_hostkey: yes
 
-- name: generate account key
+- name: copy Letsencrypt account key source file
+  copy:
+    src: "{{ letsencrypt_account_key_source_file }}"
+    dest: "{{ letsencrypt_account_key }}"
+  when: letsencrypt_account_key_source_file is defined
+
+- name: copy Letsencrypt account key source contents
+  copy:
+    content: "{{ letsencrypt_account_key_source_content|trim }}"
+    dest: "{{ letsencrypt_account_key }}"
+  when: letsencrypt_account_key_source_content is defined
+
+- name: generate a new account key
   shell: >
     openssl genrsa 4096 > {{ letsencrypt_account_key }}
   args:
