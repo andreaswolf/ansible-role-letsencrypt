@@ -27,6 +27,17 @@ letsencrypt_intermediate_cert_path: '/etc/ssl/certs/lets-encrypt-x1-cross-signed
 letsencrypt_intermediate_cert_url: 'https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem'
 letsencrypt_intermediate_cert_checksum: 'sha256:6c0a324bb803e9d66b8986ea2085bb9d6bdfe33f5c04a03a3f7024f4aa8e7a2d'
 
+letsencrypt_key_dir: '/etc/ssl/letsencrypt/keys'
+letsencrypt_certs_dir: '/etc/ssl/letsencrypt/certs'
+
+letsencrypt_key_dir_permissions: '0700'
+letsencrypt_key_dir_owner: root
+letsencrypt_key_dir_group: root
+
+letsencrypt_certs_dir_permissions: '0755'
+letsencrypt_certs_dir_owner: '{{ letsencrypt_user }}'
+letsencrypt_certs_dir_group: '{{ letsencrypt_group }}'
+
 letsencrypt_user: 'letsencrypt'
 letsencrypt_group: 'letsencrypt'
 

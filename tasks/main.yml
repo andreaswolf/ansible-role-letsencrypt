@@ -25,6 +25,23 @@
     name: '{{ letsencrypt_group }}'
     system: yes
 
+- name: create certs directory
+  file:
+    path: '{{ letsencrypt_certs_dir }}'
+    state: directory
+    mode: '{{ letsencrypt_certs_dir_permissions }}'
+    owner: '{{ letsencrypt_certs_dir_owner }}'
+    group: '{{ letsencrypt_certs_dir_group }}'
+
+- name: create key directory
+  file:
+    path: '{{ letsencrypt_key_dir }}'
+    state: directory
+    mode: '{{ letsencrypt_key_dir_permissions }}'
+    owner: '{{ letsencrypt_key_dir_owner }}'
+    group: '{{ letsencrypt_key_dir_group }}'
+
+
 - name: create program directory
   file:
     path: '{{ acme_tiny_software_directory }}'
