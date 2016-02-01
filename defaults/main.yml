@@ -7,6 +7,10 @@ acme_tiny_software_directory: '/usr/local/letsencrypt'
 acme_tiny_data_directory: '/var/lib/letsencrypt'
 acme_tiny_challenges_directory: '/var/www/letsencrypt'
 
+# Path to the local file containing the account key to copy to the server.
+# Leave this blank to generate a new account key that will need to be registered manually with Letsencrypt.org
+#letsencrypt_account_key_source: /my/account.key
+
 letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 
 letsencrypt_intermediate_cert_path: '/etc/ssl/certs/lets-encrypt-x1-cross-signed.pem'
