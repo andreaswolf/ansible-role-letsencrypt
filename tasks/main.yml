@@ -142,6 +142,7 @@
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   when: item.host is string
   with_items: letsencrypt_certs
+  tags: ['letsencrypt_keys']
 
 - name: generate csrs for multi domain keys
   shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/' -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:{{ item.host|join(',DNS:') }}')) > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
@@ -151,7 +152,7 @@
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   when: item.host is not string
   with_items: letsencrypt_certs
-  tags: letsencrypt
+  tags: ['letsencrypt_keys']
 
 - name: generate the initial certificate
   command: ./renew-certs.py
@@ -162,6 +163,7 @@
   failed_when: (generate_initial_cert.stdout is defined and
     ('error' in generate_initial_cert.stdout or 'Error' in generate_initial_cert.stdout
       or 'Error' in generate_initial_cert.stderr))
+  tags: ['letsencrypt_keys']
 
 #################################################
 # cron setup
