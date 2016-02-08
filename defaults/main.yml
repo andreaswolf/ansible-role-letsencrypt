@@ -34,6 +34,8 @@ letsencrypt_key_dir_permissions: '0700'
 letsencrypt_key_dir_owner: root
 letsencrypt_key_dir_group: root
 
+letsencrypt_certs: []
+
 letsencrypt_certs_dir_permissions: '0755'
 letsencrypt_certs_dir_owner: '{{ letsencrypt_user }}'
 letsencrypt_certs_dir_group: '{{ letsencrypt_group }}'
