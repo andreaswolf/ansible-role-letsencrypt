@@ -25,7 +25,7 @@ letsencrypt_account_key: '{{ acme_tiny_data_directory }}/account.key'
 
 letsencrypt_intermediate_cert_path: '/etc/ssl/certs/lets-encrypt-x1-cross-signed.pem'
 letsencrypt_intermediate_cert_url: 'https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem'
-letsencrypt_intermediate_cert_checksum: 'sha256:6c0a324bb803e9d66b8986ea2085bb9d6bdfe33f5c04a03a3f7024f4aa8e7a2d'
+letsencrypt_intermediate_cert_sha256sum: '6c0a324bb803e9d66b8986ea2085bb9d6bdfe33f5c04a03a3f7024f4aa8e7a2d'
 
 letsencrypt_key_dir: '/etc/ssl/letsencrypt/keys'
 letsencrypt_certs_dir: '/etc/ssl/letsencrypt/certs'

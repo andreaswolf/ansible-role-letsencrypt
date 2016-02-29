@@ -112,7 +112,7 @@
   get_url: >
     url={{ letsencrypt_intermediate_cert_url }}
     dest={{ letsencrypt_intermediate_cert_path }}
-    checksum={{ letsencrypt_intermediate_cert_checksum }}
+    sha256sum={{ letsencrypt_intermediate_cert_sha256sum }}
 
 #################################################
 # key setup
