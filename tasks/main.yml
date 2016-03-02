@@ -63,6 +63,9 @@
     group: '{{ letsencrypt_group }}'
     recurse: true
 
+- name: ensure git is present
+  apt: name=git state=present cache_valid_time=3600 update_cache=yes
+
 - name: clone acme-tiny repository
   git:
     dest: '{{ acme_tiny_software_directory }}'
