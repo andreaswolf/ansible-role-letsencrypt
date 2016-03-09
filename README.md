@@ -1,6 +1,6 @@
 # Let’s encrypt/acme-tiny role for Ansible
 
-Installs and configures [acme-tiny](https://github.com/debops/acme-tiny), a small Python-based client for
+Installs and configures [acme-tiny](https://github.com/diafygi/acme-tiny), a small Python-based client for
 [Let’s encrypt](https://letsencrypt.org).
 
 It automates the following tasks:
