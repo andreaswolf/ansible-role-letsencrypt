@@ -165,6 +165,14 @@
       or 'Error' in generate_initial_cert.stderr))
   tags: ['letsencrypt_keys']
 
+- name: generated chained certificates
+  shell: cat {{ item.certpath }} {{ letsencrypt_intermediate_cert_path }} > {{ item.chainedcertpath }}
+  args:
+    creates: "{{ item.chainedcertpath }}"
+  when: item.chainedcertpath is defined
+  with_items: letsencrypt_certs
+  tags: ['letsencrypt_keys']
+
 #################################################
 # cron setup
 
