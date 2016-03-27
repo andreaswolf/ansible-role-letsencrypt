@@ -78,7 +78,8 @@ give you the certificate!):
 
 The certificate will be placed in the path given in the `certpath` attribute.
 The `chainedcertpath` option gives you a certificate file consisting of the actual certificate and the intermediate
-certificate. This is e.g. useful for nginx. Note that you always need to also have the `certpath` option set, even
+certificate. This is e.g. useful for nginx. There is also a `fullchainedcertpath` option that works much the same, but
+will include the private key in the output. Note that you always need to also have the `certpath` option set, even
 if you only want to use the chained certificate.
 
 For multidomain certificates, all mentioned names must point to the server where the certificate is being generated.
