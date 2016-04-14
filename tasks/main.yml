@@ -122,7 +122,7 @@
     openssl genrsa 4096 > {{ item.keypath }}
   args:
     creates: "{{ item.keypath }}"
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 # todo this leaves a very very tiny timeframe where the keys are potentially not secured; this is only relevant if the
@@ -132,7 +132,7 @@
     path={{ item.keypath }}
     owner={{ item.key_owner|default(letsencrypt_default_key_owner) }} group={{ item.key_group|default(letsencrypt_default_key_group) }}
     mode={{ item.key_permissions|default(letsencrypt_default_key_permissions) }}
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 - name: generate csrs for single domain keys
@@ -141,7 +141,7 @@
   args:
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   when: item.host is string
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 - name: generate csrs for multi domain keys
@@ -151,7 +151,7 @@
     executable: "/bin/bash"
     creates: "{{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   when: item.host is not string
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 - name: generate the initial certificate
@@ -170,7 +170,7 @@
   args:
     creates: "{{ item.chainedcertpath }}"
   when: item.chainedcertpath is defined
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 - name: generate full chained certificate
@@ -178,7 +178,7 @@
   args:
     creates: "{{ item.fullchainedcertpath }}"
   when: item.fullchainedcertpath is defined
-  with_items: letsencrypt_certs
+  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 #################################################
