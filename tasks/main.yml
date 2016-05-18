@@ -14,15 +14,16 @@
     path: '{{ acme_tiny_data_directory }}/csrs'
     state: directory
 
-- name: create user
-  user:
-    name: '{{ letsencrypt_user }}'
-    home: '{{ acme_tiny_data_directory }}'
-    system: yes
-
 - name: create group
   group:
     name: '{{ letsencrypt_group }}'
+    system: yes
+
+- name: create user
+  user:
+    name: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+    home: '{{ acme_tiny_data_directory }}'
     system: yes
 
 - name: create certs directory
