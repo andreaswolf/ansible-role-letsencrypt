@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env {{ python_binary }}
 
 import os
 import time
@@ -22,7 +22,7 @@ for cert in certs:
 
     print "Generating certificate for " + host
     args = [
-        "/usr/bin/env", "python", script,
+        "/usr/bin/env", "{{ python_binary }}", script,
 
         "--account-key",
         "{{ letsencrypt_account_key }}",

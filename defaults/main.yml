@@ -1,5 +1,8 @@
 ---
 
+# Change to "python2.7" if the default python binary points to 2.6
+python_binary: python
+
 acme_tiny_repo: 'https://github.com/diafygi/acme-tiny.git'
 acme_tiny_commit: '69a457269a6392ac31b629b4e103e8ea7dd282c9'
 
