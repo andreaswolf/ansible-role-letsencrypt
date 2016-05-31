@@ -29,7 +29,9 @@ for cert in certs:
         "--csr",
         "{{ acme_tiny_data_directory }}/csrs/" + cert['name'] + ".csr",
         "--acme-dir",
-        "{{ acme_tiny_challenges_directory }}"
+        "{{ acme_tiny_challenges_directory }}",
+        "--ca",
+        "{{ acme_tiny_certificate_authority_url }}"
     ]
 
     cmd = "/usr/bin/env " + " ".join(args)

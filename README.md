@@ -56,6 +56,13 @@ You can also adjust the user and group used for generating the certificates; the
 
   * `letsencrypt_user`—note that this is a user **on your system**, not with the Let’s encrypt web service.
   * `letsencrypt_group`
+  
+By default the acme_tiny script uses the LetsEncrypt certificate authority, but you can change it with the
+`acme_tiny_certificate_authority_url` variable. For example to use the LetsEncrypt staging certificate authority
+instead of the real one (much higher rate limits but certs are not trusted), use this:
+```
+acme_tiny_certificate_authority_url: "https://acme-staging.api.letsencrypt.org"
+```
 
 Add the certificates to generate to their respective hosts (important! if the certificate is not generated on the host
 the DNS A record points to, Let’s encrypt won’t be able to verify if the hostname really belongs to you and thus won’t
@@ -152,5 +159,6 @@ This role was created by Andreas Wolf. Visit my [website](http://a-w.io) and
 
 *(in alphabetic order)*
 
+  * [Emmet O'Grady](https://github.com/emmetog)
   * [Ludovic Claude](https://github.com/ludovicc)
   * [tgagor](https://github.com/tgagor)
