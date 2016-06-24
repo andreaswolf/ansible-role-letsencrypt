@@ -44,3 +44,17 @@ for cert in certs:
         f = open(cert['certpath'], 'w')
         f.write(output)
         f.close()
+        if 'chainedcertpath' in cert:
+          intermediate_cert = open('{{letsencrypt_intermediate_cert_path}}', 'r')
+          f = open(cert['chainedcertpath'], 'w')
+          f.write(output)
+          f.write(intermediate_cert.read())
+          f.close()
+        if 'fullchainedcertpath' in cert:
+          intermediate_cert = open('{{letsencrypt_intermediate_cert_path}}', 'r')
+          private_key = open(cert['keypath'], 'r')
+          f = open(cert['fullchainedcertpath'], 'w')
+          f.write(private_key.read())
+          f.write(output)
+          f.write(intermediate_cert.read())
+          f.close()
