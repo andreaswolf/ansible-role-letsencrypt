@@ -64,6 +64,11 @@
     group: '{{ letsencrypt_group }}'
     recurse: true
 
+- name: install pip dependencies
+  pip:
+    name: argparse
+    state: present
+
 - name: clone acme-tiny repository
   git:
     dest: '{{ acme_tiny_software_directory }}'
