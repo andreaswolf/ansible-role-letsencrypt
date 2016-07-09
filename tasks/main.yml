@@ -160,7 +160,7 @@
   with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
-- name: generate the initial certificate
+- name: generate the initial certificates
   command: ./renew-certs.py
   args:
     chdir: "{{ acme_tiny_data_directory }}"
@@ -169,22 +169,6 @@
   failed_when: (generate_initial_cert.stdout is defined and
     ('error' in generate_initial_cert.stdout or 'Error' in generate_initial_cert.stdout
       or 'Error' in generate_initial_cert.stderr))
-  tags: ['letsencrypt_keys']
-
-- name: generate chained certificate
-  shell: cat {{ item.certpath }} {{ letsencrypt_intermediate_cert_path }} > {{ item.chainedcertpath }}
-  args:
-    creates: "{{ item.chainedcertpath }}"
-  when: item.chainedcertpath is defined
-  with_items: "{{ letsencrypt_certs }}"
-  tags: ['letsencrypt_keys']
-
-- name: generate full chained certificate
-  shell: cat {{ item.keypath }} {{ item.certpath }} {{ letsencrypt_intermediate_cert_path }} > {{ item.fullchainedcertpath }}
-  args:
-    creates: "{{ item.fullchainedcertpath }}"
-  when: item.fullchainedcertpath is defined
-  with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
 #################################################
