@@ -20,6 +20,10 @@ for cert in certs:
 
     host = ",".join(cert['host']) if type(cert['host']) is list else cert['host']
 
+    # Check that we can write the certificate file before generating it (to avoid burning Letencrypt quotas)
+    f = open(cert['certpath'], 'w')
+    f.close()
+
     print "Generating certificate for " + host
     args = [
         "/usr/bin/env", "python", script,
