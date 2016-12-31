@@ -22,6 +22,11 @@ directory configured with `acme_tiny_challenges_directory`. For Apache, such an 
 
 Hint: You can also put this into a global variable and then use this variable in the definition of every vHost.
 
+You need python 2.7 installed. Centos 6 users will need to install python version 2.7 from the ius repo as described
+[here](https://community.letsencrypt.org/t/redhat-centos-6-x-users-need-python-2-7/2190).
+
+If the default python binary `python` is not version 2.7 (such as on Centos 6) then you can set
+the `python_binary` variable of this role to "python2.7" after installing python 2.7.
 
 ## Certificate chain
 
@@ -56,6 +61,11 @@ You can also adjust the user and group used for generating the certificates; the
 
   * `letsencrypt_user`—note that this is a user **on your system**, not with the Let’s encrypt web service.
   * `letsencrypt_group`
+  
+By default this role uses the `python` binary, if your `python` binary points to an older version of python you can
+change the python binary that is used by setting these vars:
+
+  * `python_binary` - set to "python2.7" if your `python --version` is less than 2.7
 
 Add the certificates to generate to their respective hosts (important! if the certificate is not generated on the host
 the DNS A record points to, Let’s encrypt won’t be able to verify if the hostname really belongs to you and thus won’t
@@ -121,6 +131,26 @@ does not support setting up a temporary server.
             certpath: "/etc/ssl/certs/anything-you-like.cert"
             host: "myhost.example.com"
 
+## Troubleshooting
+
+If you get this error:
+```
+Parsing account key...
+Parsing CSR...
+Registering account...
+Traceback (most recent call last):
+  File "/usr/local/letsencrypt/acme_tiny.py", line 198, in <module>
+    main(sys.argv[1:])
+  File "/usr/local/letsencrypt/acme_tiny.py", line 194, in main
+    signed_crt = get_crt(args.account_key, args.csr, args.acme_dir, log=LOGGER, CA=args.ca)
+  File "/usr/local/letsencrypt/acme_tiny.py", line 85, in get_crt
+    "agreement": "https://letsencrypt.org/documents/LE-SA-v1.0.1-July-27-2015.pdf",
+  File "/usr/local/letsencrypt/acme_tiny.py", line 62, in _send_signed_request
+    return getattr(e, "code", None), getattr(e, "read", e.reason.__str__)()
+AttributeError: 'HTTPError' object has no attribute 'reason'
+```
+then check your version of python. You'll need python 2.7 for this role to work.
+
 ## TODO
 
 This role is brand-new, so it needs testing. I tested it on Debian, where it works fine, but YMMV. If you can get it to
@@ -152,5 +182,6 @@ This role was created by Andreas Wolf. Visit my [website](http://a-w.io) and
 
 *(in alphabetic order)*
 
+  * [Emmet O'Grady](https://github.com/emmetog)
   * [Ludovic Claude](https://github.com/ludovicc)
   * [tgagor](https://github.com/tgagor)
