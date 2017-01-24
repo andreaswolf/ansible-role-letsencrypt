@@ -1,7 +1,7 @@
 ---
 
 acme_tiny_repo: 'https://github.com/diafygi/acme-tiny.git'
-acme_tiny_commit: '7a5a2558c8d6e5ab2a59b9fec9633d9e63127971'
+acme_tiny_commit: '5a7b4e79bc9bd5b51739c0d8aaf644f62cc440e6'
 
 acme_tiny_software_directory: '/usr/local/letsencrypt'
 acme_tiny_data_directory: '/var/lib/letsencrypt'
