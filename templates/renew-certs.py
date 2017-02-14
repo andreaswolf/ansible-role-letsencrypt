@@ -7,6 +7,7 @@ from subprocess import Popen, PIPE, STDOUT
 
 certs = {{letsencrypt_certs}}
 
+intermediate_cert_path = "{{letsencrypt_intermediate_cert_path}}"
 script = "{{ acme_tiny_software_directory }}/acme_tiny.py"
 
 for cert in certs:
@@ -44,3 +45,8 @@ for cert in certs:
         f = open(cert['certpath'], 'w')
         f.write(output)
         f.close()
+        if 'chainedcertpath' in cert:
+            f = open(cert['chainedcertpath'], 'w')
+            i = open(intermediate_cert_path, 'r')
+            f.write(output + i.read())
+            f.close()
