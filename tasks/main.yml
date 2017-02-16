@@ -14,16 +14,15 @@
     path: '{{ acme_tiny_data_directory }}/csrs'
     state: directory
 
-- name: create group
-  group:
-    name: '{{ letsencrypt_group }}'
-    system: yes
-
 - name: create user
   user:
     name: '{{ letsencrypt_user }}'
-    group: '{{ letsencrypt_group }}'
     home: '{{ acme_tiny_data_directory }}'
+    system: yes
+
+- name: create group
+  group:
+    name: '{{ letsencrypt_group }}'
     system: yes
 
 - name: create certs directory
@@ -63,11 +62,6 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
     recurse: true
-
-- name: install pip dependencies
-  pip:
-    name: argparse
-    state: present
 
 - name: clone acme-tiny repository
   git:
@@ -120,9 +114,6 @@
     dest={{ letsencrypt_intermediate_cert_path }}
     sha256sum={{ letsencrypt_intermediate_cert_sha256sum }}
 
-#################################################
-# key setup
-
 - name: generate private keys
   shell: >
     openssl genrsa 4096 > {{ item.keypath }}
@@ -151,7 +142,7 @@
   tags: ['letsencrypt_keys']
 
 - name: generate csrs for multi domain keys
-  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/' -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:{{ item.host|join(',DNS:') }}')) > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
+  shell: "openssl req -new -sha256 -key '{{ item.keypath }}' -subj '/' -reqexts SAN -config <(cat /etc/pki/tls/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:{{ item.host|join(',DNS:') }}')) > {{ acme_tiny_data_directory }}/csrs/{{ item.name }}.csr"
   args:
     # we must use bash here because dash (default on Debian) throws an error "unexpected ( on line 1"
     executable: "/bin/bash"
@@ -171,19 +162,11 @@
       or 'Error' in generate_initial_cert.stderr))
   tags: ['letsencrypt_keys']
 
-- name: generate chained certificate
+- name: generated chained certificates
   shell: cat {{ item.certpath }} {{ letsencrypt_intermediate_cert_path }} > {{ item.chainedcertpath }}
   args:
     creates: "{{ item.chainedcertpath }}"
   when: item.chainedcertpath is defined
-  with_items: "{{ letsencrypt_certs }}"
-  tags: ['letsencrypt_keys']
-
-- name: generate full chained certificate
-  shell: cat {{ item.keypath }} {{ item.certpath }} {{ letsencrypt_intermediate_cert_path }} > {{ item.fullchainedcertpath }}
-  args:
-    creates: "{{ item.fullchainedcertpath }}"
-  when: item.fullchainedcertpath is defined
   with_items: "{{ letsencrypt_certs }}"
   tags: ['letsencrypt_keys']
 
