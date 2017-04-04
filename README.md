@@ -15,7 +15,7 @@ certificates as soon as you have configured them.
 
 ## Requirements
 
-For every hostname you want to support, you need to have a webserver configured and add an alias that points to the 
+For every hostname you want to support, you need to have a webserver configured and add an alias that points to the
 directory configured with `acme_tiny_challenges_directory`. For Apache, such an alias should look like this:
 
     Alias "/.well-known/acme-challenge" "{{ acme_tiny_challenges_directory }}"
@@ -44,12 +44,13 @@ You might want to adjust these variables that control where the software and dat
 
   * `acme_tiny_software_directory`: The location to which acme-tiny is cloned
   * `acme_tiny_data_directory`: The location where the account key and certificate signature requests (CSR) are placed
-  * `acme_tiny_challenges_directory`: The (web-reachable) directory that contains the temporary challenges used for 
+  * `acme_tiny_challenges_directory`: The (web-reachable) directory that contains the temporary challenges used for
     verifying your domain ownership
   * `letsencrypt_intermediate_cert_path`: the path to which the intermediate certificate of Let’s encrypt will be
     downloaded.
   * `letsencrypt_account_key_source_file`: the path to the local account key file to copy over to the server. Leave this variable undefined to let this role generate the account key.
   * `letsencrypt_account_key_source_contents`: the actual content of the key file including the BEGIN and END headers. Leave this variable undefined to let this role generate the account key.
+  * `letsencrypt_post_renew_cmd`: Optional command to be run (as root) after a successful renewal.
 
 You can also adjust the user and group used for generating the certificates; there should be a dedicated user for this
 (recommended by the acme-tiny authors). The user and group are configured with these two variables:
@@ -62,7 +63,7 @@ the DNS A record points to, Let’s encrypt won’t be able to verify if the hos
 give you the certificate!):
 
     letsencrypt_certs:
-      - 
+      -
         name: "an_easily_recognizable_name__this_is_used_for_the_csr_file"
         keypath: "/path/to/your/keys/anything-you-like.key"
         certpath: "/path/to/your/certs/anything-you-like.crt"
@@ -112,7 +113,7 @@ does not support setting up a temporary server.
     - hosts: servers
       roles:
          - role: andreaswolf.letsencrypt
-      
+
       vars:
         letsencrypt_certs:
           -
@@ -126,7 +127,7 @@ does not support setting up a temporary server.
 This role is brand-new, so it needs testing. I tested it on Debian, where it works fine, but YMMV. If you can get it to
 run on other systems, I’d be happy to hear about that. I’m also happy if you report any issues you run into.
 
-During its public beta, _Let’s encrypt_ has a rate-limit of five certificates *per domain* per seven days 
+During its public beta, _Let’s encrypt_ has a rate-limit of five certificates *per domain* per seven days
 [source](https://community.letsencrypt.org/t/public-beta-rate-limits/4772). So two certificates for foo.example.org
 and bar.example.org use two of the seven available certs for example.org. This should be better handled by the role,
 by not regenerating certficates too often (probably you have multiple servers which host subdomains of the same domain,
@@ -145,7 +146,7 @@ MIT
 
 ## Author Information
 
-This role was created by Andreas Wolf. Visit my [website](http://a-w.io) and 
+This role was created by Andreas Wolf. Visit my [website](http://a-w.io) and
 [Github profile](https://github.com/andreaswolf/) or follow me on [Twitter](https://twitter.com/andreaswo).
 
 ### Contributors

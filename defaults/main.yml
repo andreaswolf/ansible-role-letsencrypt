@@ -55,4 +55,8 @@ letsencrypt_min_renewal_age: 60
 # (60 days by default).
 letsencrypt_cronjob_daysofmonth: 1,11,21
 
+# Optional command to be run (as root) after a successful renewal.
+# Useful for triggering a webserver configuration reload for the new certificate.
+letsencrypt_post_renew_cmd: ''
+
 ...
