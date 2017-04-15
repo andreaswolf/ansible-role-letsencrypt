@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+# Dehydrated domains file
+
+{% for cert in letsencrypt_certs %}
+{{ cert.host | join(" ") }}
+{% endfor %}

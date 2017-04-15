@@ -1,24 +1,24 @@
 # Let’s encrypt/acme-tiny role for Ansible
 
-Installs and configures [acme-tiny](https://github.com/diafygi/acme-tiny), a small Python-based client for
+Installs and configures [dehydrated](https://github.com/lukas2511/dehydrated), a small Shell-based client for
 [Let’s encrypt](https://letsencrypt.org).
 
-It automates the following tasks:
-
-  * creating an account key for Let’s encrypt
-  * creating private keys and Certificate Signature Requests (CSR) for hosts
-  * configuring a cron job that automatically renews the certificates after 60 days
+This role historically used acme-tiny, a Python-based implementation of the ACME protocol. As this client was too 
+limited in functionality, we switched over to dehydrated in april 2017.
 
 During each role run, the certificate renewal script is also executed (as with the cron job), to ensure you get new
 certificates as soon as you have configured them.
+
+**IMPORTANT:** This package is currently in the transition from acme-tiny to dehydrated. Use with caution and always 
+manually verify if everything worked ok!
 
 
 ## Requirements
 
 For every hostname you want to support, you need to have a webserver configured and add an alias that points to the 
-directory configured with `acme_tiny_challenges_directory`. For Apache, such an alias should look like this:
+directory configured with `dehydrated_challenges_directory`. For Apache, such an alias should look like this:
 
-    Alias "/.well-known/acme-challenge" "{{ acme_tiny_challenges_directory }}"
+    Alias "/.well-known/acme-challenge" "{{ dehydrated_challenges_directory }}"
 
 Hint: You can also put this into a global variable and then use this variable in the definition of every vHost.
 
@@ -42,9 +42,9 @@ When you use Letencrypt on multiple servers, it may be simpler to have only one 
 
 You might want to adjust these variables that control where the software and data are located:
 
-  * `acme_tiny_software_directory`: The location to which acme-tiny is cloned
-  * `acme_tiny_data_directory`: The location where the account key and certificate signature requests (CSR) are placed
-  * `acme_tiny_challenges_directory`: The (web-reachable) directory that contains the temporary challenges used for 
+  * `dehydrated_software_directory`: The location to which dehydrated is cloned
+  * `dehydrated_base_directory`: The location where the configuration, account key(s) and the certificate list (domains.txt) are placed
+  * `dehydrated_challenges_directory`: The (web-reachable) directory that contains the temporary challenges used for 
     verifying your domain ownership
   * `letsencrypt_intermediate_cert_path`: the path to which the intermediate certificate of Let’s encrypt will be
     downloaded.
