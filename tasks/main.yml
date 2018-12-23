@@ -24,6 +24,14 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
 
+- name: create dehydrated accounts folder
+  file:
+    path: "{{ dehydrated_base_directory }}/accounts"
+    state: directory
+    mode: 0700
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+
 - name: create certs directory
   file:
     path: '{{ dehydrated_certs_directory }}'
