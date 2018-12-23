@@ -75,6 +75,14 @@
 #    group: '{{ letsencrypt_group }}'
 #    recurse: true
 
+- name: install python-setuptools and pip (Debian)
+  apt:
+    pkg:
+      - python-setuptools
+      - python-pip
+    state: present
+  when: ansible_os_family == 'Debian'
+
 - name: install pip dependencies
   pip:
     name: argparse
