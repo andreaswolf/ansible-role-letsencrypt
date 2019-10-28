@@ -15,7 +15,7 @@ dehydrated_domains_file: '{{ dehydrated_base_directory }}/domains.txt'
 dehydrated_software_directory: '/usr/local/dehydrated'
 dehydrated_challenges_directory: '/var/www/letsencrypt'
 
-dehydrated_ca: 'https://acme-v01.api.letsencrypt.org/directory'
+dehydrated_ca: 'https://acme-v02.api.letsencrypt.org/directory'
 
 # Path to the local file containing the account key to copy to the server.
 # Secure this file using Git-crypt for example.
