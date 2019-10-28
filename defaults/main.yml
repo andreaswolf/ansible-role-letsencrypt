@@ -5,7 +5,7 @@ acme_tiny_software_directory: '/usr/local/letsencrypt'
 acme_tiny_data_directory: '/var/lib/letsencrypt'
 
 dehydrated_repo: 'https://github.com/lukas2511/dehydrated.git'
-dehydrated_commit: 'v0.4.0'
+dehydrated_commit: 'v0.6.5'
 
 dehydrated_base_directory: '/etc/dehydrated'
 dehydrated_certs_directory: '/etc/ssl/letsencrypt/certs'
