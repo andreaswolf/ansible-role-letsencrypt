@@ -147,6 +147,25 @@
     owner: '{{ letsencrypt_user }}'
     group: '{{ letsencrypt_group }}'
 
+
+- name: generate acme-dns authentication hook
+  template:
+    src: acme-dns-challenge-hook.sh.j2
+    dest: "{{ dehydrated_base_directory }}/acme-dns-hook.sh"
+    mode: 0700
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+
+- name: generate acme-dns authentication data file
+  template:
+    src: acme-dns-auth-config.j2
+    dest: "{{ dehydrated_certs_directory }}/acme-dns-auth"
+    mode: 0700
+    owner: '{{ letsencrypt_user }}'
+    group: '{{ letsencrypt_group }}'
+  vars:
+    certs: '{{ letsencrypt_certs }}'
+
 #- name: download intermediate certificate
 #  get_url: >
 #    url={{ letsencrypt_intermediate_cert_url }}

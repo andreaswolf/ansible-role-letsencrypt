@@ -26,7 +26,7 @@ CA="{{ dehydrated_ca }}"
 #LICENSE=""
 
 # Which challenge should be used? Currently http-01 and dns-01 are supported
-#CHALLENGETYPE="http-01"
+CHALLENGETYPE="{{ letsencrypt_challenge_type | default('http-01') }}"
 
 # Path to a directory containing additional config files, allowing to override
 # the defaults found in the main configuration file. Additional config files
@@ -65,7 +65,9 @@ WELLKNOWN="{{ dehydrated_challenges_directory }}"
 #
 # BASEDIR and WELLKNOWN variables are exported and can be used in an external program
 # default: <unset>
-#HOOK=
+{% if (letsencrypt_challenge_type is defined and letsencrypt_challenge_type == 'dns-01') %}
+HOOK=/etc/dehydrated/acme-dns-hook.sh
+{% endif %}
 
 # Chain clean_challenge|deploy_challenge arguments together into one hook call per certificate (default: no)
 #HOOK_CHAIN="no"

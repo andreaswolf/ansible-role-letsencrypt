@@ -61,4 +61,8 @@ letsencrypt_min_renewal_age: 60
 # (60 days by default).
 letsencrypt_cronjob_daysofmonth: "*"
 
+dehydrated_acme_dns_update_url: ''
+
+letsencrypt_challenge_type: 'http-01'
+
 ...

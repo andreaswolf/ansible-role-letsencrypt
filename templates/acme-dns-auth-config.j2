@@ -1,0 +1,7 @@
+{% for item in certs %}
+{% if item['dns-auth'] is defined %}
+{% for domain in item.host %}
+{{ domain }}:{{ item['dns-auth'].subdomain }}:{{ item['dns-auth'].user }}:{{ item['dns-auth'].token }}
+{% endfor %}
+{% endif %}
+{% endfor %}

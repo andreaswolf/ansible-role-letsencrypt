@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# clean_challenge, deploy_challenge, deploy_cert, invalid_challenge or request_failure
+
+OPERATION=$1
+
+if [[ "$OPERATION" != "deploy_challenge" ]]; then
+  exit 0;
+fi
+
+DOMAIN_NAME=$2
+CHALLENGE_TOKEN=$3
+TOKEN=$4
+
+CONFIG=$(cat {{ dehydrated_certs_directory }}/acme-dns-auth | grep "^$DOMAIN_NAME")
+
+if [[ "" == "$CONFIG" ]]; then
+    echo "Could not find domain $DOMAIN_NAME in config";
+    exit 1
+fi
+
+IFS=: read _ AUTH_SUBDOMAIN USER API_KEY <<< $CONFIG
+
+curl -X POST \
+  -H "X-Api-User: $USER" \
+  -H "X-Api-Key: $API_KEY" \
+  -d "{\"subdomain\": \"$AUTH_SUBDOMAIN\", \"txt\": \"$TOKEN\"}" \
+  https://zone.domain-auth.de/update
