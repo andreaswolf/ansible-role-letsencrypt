@@ -88,6 +88,9 @@
     name: argparse
     state: present
 
+- name: ensure git is present
+  apt: name=git state=present cache_valid_time=3600 update_cache=yes
+
 - name: clone acme-tiny repository
   git:
     dest: '{{ dehydrated_software_directory }}'
