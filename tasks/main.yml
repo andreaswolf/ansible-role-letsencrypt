@@ -81,7 +81,7 @@
       - python-setuptools
       - python-pip
     state: present
-  when: 
+  when:
     - ansible_os_family == 'Debian'
     - ansible_distribution_version exists and ansible_distribution_version < '20.04'
 
@@ -91,7 +91,7 @@
       - python3-setuptools
       - python3-pip
     state: present
-  when: 
+  when:
     - ansible_os_family == 'Debian'
     - ansible_distribution_version == '20.04'
 
