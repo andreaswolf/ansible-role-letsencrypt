@@ -81,7 +81,19 @@
       - python-setuptools
       - python-pip
     state: present
-  when: ansible_os_family == 'Debian'
+  when: 
+    - ansible_os_family == 'Debian'
+    - ansible_distribution_version exists and ansible_distribution_version < '20.04'
+
+- name: install python-setuptools and pip (Debian)
+  apt:
+    pkg:
+      - python3-setuptools
+      - python3-pip
+    state: present
+  when: 
+    - ansible_os_family == 'Debian'
+    - ansible_distribution_version == '20.04'
 
 - name: install pip dependencies
   pip:
